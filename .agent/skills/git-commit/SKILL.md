@@ -5,9 +5,16 @@ description: Analyzes git status and diff, creates a standardized Conventional C
 
 # Git Commit Skill
 
+## Critical Constraint
+
+> [!CAUTION]
+> **Zero Autonomous Commits**: The agent is **strictly forbidden** from running `git commit` without explicit, unambiguous user authorization. Propose the diff summary and commit message, then stop and wait for user approval.
+
+---
+
 ## Purpose
 
-Standardize atomic git commits following the Conventional Commits specification. Can be invoked via natural language (e.g., "faz commit da fase 1", "faz commit das alterações") or direct command.
+Standardize atomic git commits following the Conventional Commits specification. Can be invoked via natural language (e.g., "commit phase 1", "commit current changes") or direct command.
 
 ---
 
@@ -26,8 +33,9 @@ Standardize atomic git commits following the Conventional Commits specification.
 3. **Draft Structured Message**:
    - Short, imperative title (e.g., `test: add characterization tests for pricing calculations`).
    - Bullet points summarizing key changes and rationale.
-4. **User Validation**:
+4. **User Validation & Gatekeeper**:
    - Present the staged files and proposed commit message to the user.
+   - **STOP AND WAIT**: Do not commit until the user explicitly responds with authorization (e.g., "go ahead and commit", "commit the changes").
 5. **Execute Commit**:
    - Stage appropriate files: `git add <files>`
    - Commit: `git commit -m "<message>"`

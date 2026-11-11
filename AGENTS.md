@@ -65,11 +65,12 @@ Every engineering task or feature ticket must follow this strict 5-stage lifecyc
   - *Non-critical / Out-of-scope*: Logged into `KNOWN_ISSUES.md` (following the deduplication/addendum policy) after discussing with the user.
 
 ### Stage 4: Atomic Commits & Git Cadence
+* **Strict Human Gatekeeper Rule**: The agent is **strictly prohibited** from executing `git commit` or `git push` autonomously or unprompted. The agent may only *suggest* a commit, present the diff summary and proposed message, and MUST await explicit user authorization (e.g., "commit changes", "go ahead and commit") before running git mutation commands.
 * **Cadence**: Suggest a commit immediately upon completing each plan phase.
 * **TDD Phase Commit Rule**: During the initial TDD test phase, existing regression tests must be green, but newly added tests are permitted (and expected) to fail (`test: add failing tests for...`).
 * **Skills**:
-  - `git-commit`: Analyzes diff, generates Conventional Commit message, requests user confirmation, executes commit.
-  - `git-push`: Pushes branch commits to remote on demand.
+  - `git-commit`: Analyzes diff, generates Conventional Commit message, requests user confirmation, executes commit ONLY after explicit approval.
+  - `git-push`: Pushes branch commits to remote on demand ONLY after explicit approval.
   - Both skills can be triggered via natural language or command, individually or in sequence.
 
 ### Stage 5: Documentation Review, Guardrails & Draft PR
@@ -132,3 +133,9 @@ When non-critical issues, legacy anomalies, or out-of-scope improvements are ide
   - Test: `.\build.ps1 -Test`
   - Clean: `.\build.ps1 -Clean`
   - Run: `.\dealerdesk.exe`
+
+---
+
+## 6. Language & Documentation Standards
+
+All engineering artifacts, guidelines (`AGENTS.md`, `README.md`, `KNOWN_ISSUES.md`), skills (`.agent/skills/`), code comments, commit messages, PR descriptions, and prompt/command examples must be written strictly in English.

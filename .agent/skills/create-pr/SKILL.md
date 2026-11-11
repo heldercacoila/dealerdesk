@@ -11,8 +11,8 @@ description: Generates a structured Draft Pull Request from commit history using
 > **Strict Invocation Rule:** This skill can **ONLY** be invoked via the explicit slash command:
 > `/Create-pr`
 > 
-> If the user requests a pull request using conversational plain text (e.g. "cria o PR", "faz o PR"), the agent **must reject the plain text request** and reply:
-> *"A criação de Pull Request só pode ser executada através do comando `/Create-pr`."*
+> If the user requests a pull request using conversational plain text (e.g., "create the PR", "open a PR"), the agent **must reject the plain text request** and reply:
+> *"Pull Request creation can only be executed via the `/Create-pr` command."*
 
 ---
 

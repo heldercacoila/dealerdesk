@@ -128,4 +128,5 @@ This log registers decisions, clarifications, and user directions made throughou
 * **2026-11-11 - Modular Git Skills**: Split commit and push into two separate skills (`git-commit` and `git-push`), invokable via command or natural language, independently or in sequence.
 * **2026-11-11 - Strict PR Invocations**: Guardrail implemented in `create-pr` requiring explicit `/Create-pr` command; conversational requests are rejected.
 * **2026-11-11 - TDD Commit Rule**: Initial testing phase permits new feature tests to be in a failing (red) state during commit, provided regression tests are 100% green.
+* **2026-11-11 - Zero Autonomous Commits/Pushes**: Hard human gatekeeper rule codified. The agent is strictly prohibited from executing `git commit` or `git push` autonomously. It must propose the action, diff summary, and commit message, and await explicit authorization before running git mutation commands.
 * **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.
