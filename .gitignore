@@ -1,0 +1,22 @@
+# Visual Studio & IDE
+.vs/
+.vscode/
+
+# Build artifacts
+*.obj
+*.o
+*.exe
+*.pdb
+*.ilk
+*.out
+dealerdesk
+dealerdesk.exe
+test_calc
+test_calc.exe
+test_dbfile
+test_dbfile.exe
+
+# OS generated
+Thumbs.db
+Desktop.ini
+.DS_Store
