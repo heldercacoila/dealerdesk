@@ -9,6 +9,11 @@ This document records identified bugs, documentation discrepancies, legacy anoma
 1. **Deduplication**: Do not create duplicate entries for existing issues.
 2. **Addendums for Related Findings**: If a new observation relates to an existing entry, append an addendum (`Addendum YYYY-MM-DD`) detailing the divergence or new context while keeping the parent issue unified.
 3. **New Entries**: Only create a new identifier (`KI-XXX`) if the issue is conceptually distinct.
+4. **Resolution Lifecycle**: When an issue is resolved or fixed:
+   - Never delete the entry; keep it for historical traceability.
+   - Update `Status` to `Resolved (<DATE> via <TASK_ID>)`.
+   - Add a `Resolution:` field describing the resolution and changed files.
+   - Move the entry from `## Active Issues` to `## Resolved Issues`.
 
 ---
 
@@ -45,3 +50,9 @@ This document records identified bugs, documentation discrepancies, legacy anoma
   ```
 * **Impact**: VAT 20% is levied on delivery (30.00 VAT on delivery fee). Existing invoices match this exact formula.
 * **Resolution Strategy**: Maintain current implementation formula to prevent discrepancies in legacy invoice verification and test data.
+
+---
+
+## Resolved Issues
+
+*(No resolved issues yet. When active issues are fixed, move them here with their resolution note).*

@@ -112,6 +112,11 @@ When non-critical issues, legacy anomalies, or out-of-scope improvements are ide
 2. **Avoid Duplication**: If the exact issue exists, do not duplicate it.
 3. **Add Addendum**: If the finding is related to an existing issue, append an addendum to the existing entry detailing the specific divergence or context while preserving the relationship.
 4. **Create New Entry**: Only create a new numbered item if the issue is conceptually distinct.
+5. **Resolution Lifecycle**: When an issue is resolved or fixed:
+   - Never delete the entry; preserve historical traceability.
+   - Update `Status` to `Resolved (<DATE> via <TASK_ID>)`.
+   - Add a `Resolution:` field explaining the fix and modified files.
+   - Move the entry from `## Active Issues` to `## Resolved Issues`.
 
 ---
 
