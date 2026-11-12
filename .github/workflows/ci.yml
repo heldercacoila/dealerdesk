@@ -1,0 +1,52 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - master
+      - 'TICKET-*'
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Linux / GCC
+      - name: Build Application (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          make clean
+          make
+
+      - name: Run Test Suite (Linux)
+        if: runner.os == 'Linux'
+        run: make test
+
+      # Windows / MSVC
+      - name: Set up MSVC environment
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Build Application (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          .\build.ps1 -Clean
+          .\build.ps1
+
+      - name: Run Test Suite (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: .\build.ps1 -Test

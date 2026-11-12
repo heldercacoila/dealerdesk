@@ -92,8 +92,8 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 - [x] Task 2.2: Implement pricing characterization tests in `tests/test_calc.c` (locking down Retail, Trade, and legacy VAT/fee behaviors).
 - [x] Task 2.3: Implement persistence characterization tests in `tests/test_dbfile.c`.
 - [x] Task 2.4: Create cross-platform `Makefile` and `build.ps1` with build and test targets.
-- [ ] Task 2.5: Configure GitHub Actions CI workflow in `.github/workflows/ci.yml`.
-- [ ] Task 2.6: Execute full regression suite (must be 100% green).
+- [x] Task 2.5: Configure GitHub Actions CI workflow in `.github/workflows/ci.yml`.
+- [x] Task 2.6: Execute full regression suite (must be 100% green).
 - [ ] Task 2.7: Atomic commit for Phase 2 infrastructure and regression tests.
 
 ### Phase 3: TICKET-142 - TDD Specification (Failing Tests)
@@ -131,4 +131,5 @@ This log registers decisions, clarifications, and user directions made throughou
 * **2026-11-11 - Zero Autonomous Commits/Pushes**: Hard human gatekeeper rule codified. The agent is strictly prohibited from executing `git commit` or `git push` autonomously. It must propose the action, diff summary, and commit message, and await explicit authorization before running git mutation commands.
 * **2026-11-12 - Characterization Tests & KI-004**: Implemented in-tree test harness and 14 characterization tests for pricing and storage. Identified and cataloged KI-004 documenting missing salesman discount PIN and real 15% discount limit.
 * **2026-11-12 - Multi-Platform Build Automation & Dual Validation**: Created `Makefile` (GCC/Clang) and `build.ps1` (MSVC) with automatic environment detection via `vswhere.exe`, test execution, and clean targets. Dual-platform execution verified locally with 100% passing tests and zero warnings on both Windows (MSVC) and Linux (WSL Ubuntu with GCC `-Wall -Wextra -pedantic`).
+* **2026-11-12 - Continuous Integration (GitHub Actions)**: Created multi-platform CI workflow (`.github/workflows/ci.yml`) targeting Ubuntu and Windows runners on push/PR, including `workflow_dispatch` for manual on-demand execution.
 * **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.
