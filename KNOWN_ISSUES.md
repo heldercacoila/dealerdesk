@@ -53,6 +53,15 @@ This document records identified bugs, documentation discrepancies, legacy anoma
 
 ---
 
+### [KI-004] Salesman Discount PIN Missing and 15% Cap Discrepancy
+* **Status**: Accepted Legacy Behavior
+* **Severity**: Important (Security & Pricing)
+* **Description**: `README.md` (line 67) and `main.c` (line 501) state that discounts above 10% require a manager PIN. However, `main.c` line 323 prompts for discount percentage without any PIN verification, and `calc.c` lines 33-35 clamp the discount at an arbitrary 15% ceiling (`if (disc_pct > 15) disc_pct = 15;`).
+* **Impact**: Sales staff can enter discounts up to 15% without manager intervention. Discounts above 15% are silently capped at 15%.
+* **Resolution Strategy**: Preserve existing calculation limits to prevent regressions. Documented for future access control hardening.
+
+---
+
 ## Resolved Issues
 
 *(No resolved issues yet. When active issues are fixed, move them here with their resolution note).*

@@ -88,9 +88,9 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 - [x] Task 1.6: Atomic commit for Phase 1 governance files.
 
 ### Phase 2: Build Automation & Characterization Test Harness
-- [ ] Task 2.1: Implement in-tree C test harness in `tests/test_harness.h`.
-- [ ] Task 2.2: Implement pricing characterization tests in `tests/test_calc.c` (locking down Retail, Trade, and legacy VAT/fee behaviors).
-- [ ] Task 2.3: Implement persistence characterization tests in `tests/test_dbfile.c`.
+- [x] Task 2.1: Implement in-tree C test harness in `tests/test_harness.h`.
+- [x] Task 2.2: Implement pricing characterization tests in `tests/test_calc.c` (locking down Retail, Trade, and legacy VAT/fee behaviors).
+- [x] Task 2.3: Implement persistence characterization tests in `tests/test_dbfile.c`.
 - [ ] Task 2.4: Create cross-platform `Makefile` and `build.ps1` with build and test targets.
 - [ ] Task 2.5: Configure GitHub Actions CI workflow in `.github/workflows/ci.yml`.
 - [ ] Task 2.6: Execute full regression suite (must be 100% green).
@@ -129,4 +129,5 @@ This log registers decisions, clarifications, and user directions made throughou
 * **2026-11-11 - Strict PR Invocations**: Guardrail implemented in `create-pr` requiring explicit `/Create-pr` command; conversational requests are rejected.
 * **2026-11-11 - TDD Commit Rule**: Initial testing phase permits new feature tests to be in a failing (red) state during commit, provided regression tests are 100% green.
 * **2026-11-11 - Zero Autonomous Commits/Pushes**: Hard human gatekeeper rule codified. The agent is strictly prohibited from executing `git commit` or `git push` autonomously. It must propose the action, diff summary, and commit message, and await explicit authorization before running git mutation commands.
+* **2026-11-12 - Characterization Tests & KI-004**: Implemented in-tree test harness and 14 characterization tests for pricing and storage. Identified and cataloged KI-004 documenting missing salesman discount PIN and real 15% discount limit.
 * **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.
