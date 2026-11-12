@@ -94,11 +94,11 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 - [x] Task 2.4: Create cross-platform `Makefile` and `build.ps1` with build and test targets.
 - [x] Task 2.5: Configure GitHub Actions CI workflow in `.github/workflows/ci.yml`.
 - [x] Task 2.6: Execute full regression suite (must be 100% green).
-- [ ] Task 2.7: Atomic commit for Phase 2 infrastructure and regression tests.
+- [x] Task 2.7: Atomic commit for Phase 2 infrastructure and regression tests.
 
 ### Phase 3: TICKET-142 - TDD Specification (Failing Tests)
-- [ ] Task 3.1: Add unit tests in `tests/test_calc.c` for 4% Fleet discount calculation, interaction with salesman discount, and quote formatting.
-- [ ] Task 3.2: Verify characterization/regression tests remain 100% green while new Fleet tests fail (red state).
+- [x] Task 3.1: Add unit tests in `tests/test_calc.c` for 4% Fleet discount calculation, interaction with salesman discount, and quote formatting.
+- [x] Task 3.2: Verify characterization/regression tests remain 100% green while new Fleet tests fail (red state).
 - [ ] Task 3.3: Atomic commit for Phase 3 failing tests (`test: add failing tests for ticket-142 fleet discount`).
 
 ### Phase 4: TICKET-142 - Robust Implementation & Architecture
@@ -131,5 +131,6 @@ This log registers decisions, clarifications, and user directions made throughou
 * **2026-11-11 - Zero Autonomous Commits/Pushes**: Hard human gatekeeper rule codified. The agent is strictly prohibited from executing `git commit` or `git push` autonomously. It must propose the action, diff summary, and commit message, and await explicit authorization before running git mutation commands.
 * **2026-11-12 - Characterization Tests & KI-004**: Implemented in-tree test harness and 14 characterization tests for pricing and storage. Identified and cataloged KI-004 documenting missing salesman discount PIN and real 15% discount limit.
 * **2026-11-12 - Multi-Platform Build Automation & Dual Validation**: Created `Makefile` (GCC/Clang) and `build.ps1` (MSVC) with automatic environment detection via `vswhere.exe`, test execution, and clean targets. Dual-platform execution verified locally with 100% passing tests and zero warnings on both Windows (MSVC) and Linux (WSL Ubuntu with GCC `-Wall -Wextra -pedantic`).
-* **2026-11-12 - Continuous Integration (GitHub Actions)**: Created multi-platform CI workflow (`.github/workflows/ci.yml`) targeting Ubuntu and Windows runners on push/PR, including `workflow_dispatch` for manual on-demand execution.
+* **2026-11-12 - Continuous Integration (GitHub Actions)**: Created multi-platform CI workflow (`.github/workflows/ci.yml`) targeting Ubuntu and Windows runners on push/PR, including `workflow_dispatch` for manual on-demand execution. Verified 100% green on GitHub Actions cloud runners.
+* **2026-11-12 - TDD Red State Established**: Introduced 4 failing unit tests in `tests/test_calc.c` defining 4% fleet discount behaviors. Verified that all 10 existing regression tests pass while the 4 new fleet tests fail with `Expected 400.00, got 0.00`.
 * **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.

@@ -23,6 +23,7 @@ double rnd2(double x)
 void calc_quote(QUOTE *q, double list, char cust_type, double disc_pct, double tradein)
 {
     q->list = list;
+    q->fleet_disc = 0;
 
     q->trade_disc = 0;
     if (cust_type == 'T')
