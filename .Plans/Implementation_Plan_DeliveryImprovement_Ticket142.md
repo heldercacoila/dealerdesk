@@ -99,15 +99,16 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 ### Phase 3: TICKET-142 - TDD Specification (Failing Tests)
 - [x] Task 3.1: Add unit tests in `tests/test_calc.c` for 4% Fleet discount calculation, interaction with salesman discount, and quote formatting.
 - [x] Task 3.2: Verify characterization/regression tests remain 100% green while new Fleet tests fail (red state).
-- [ ] Task 3.3: Atomic commit for Phase 3 failing tests (`test: add failing tests for ticket-142 fleet discount`).
+- [x] Task 3.3: Atomic commit for Phase 3 failing tests (`test: add failing tests for ticket-142 fleet discount`).
 
 ### Phase 4: TICKET-142 - Robust Implementation & Architecture
-- [ ] Task 4.1: Update `QUOTE` struct in `calc.h` and implement fleet calculation in `calc.c`.
-- [ ] Task 4.2: Update customer model in `globals.h` and `main.c` (support `'F'`, update prompt in `add_customer()`, implement customer editing `edit_customer()`).
-- [ ] Task 4.3: Update quote display in `main.c` to render the separate "Fleet discount" line.
-- [ ] Task 4.4: Update `sell_vehicle()` in `main.c` to consolidate fleet discount into invoice totals.
-- [ ] Task 4.5: Run test suite to verify all tests (regression + new fleet tests) are 100% green.
-- [ ] Task 4.6: Atomic commit for Phase 4 implementation.
+- [ ] Task 4.1: Implement Terminal Menu Smoke Test suite (verifying Main, Stock, Customers, and Invoices menus integrity).
+- [ ] Task 4.2: Update `QUOTE` struct in `calc.h` and implement fleet calculation in `calc.c`.
+- [ ] Task 4.3: Update customer model in `globals.h` and `main.c` (support `'F'`, update prompt in `add_customer()`, implement customer editing `edit_customer()`).
+- [ ] Task 4.4: Update quote display in `main.c` to render the separate "Fleet discount" line.
+- [ ] Task 4.5: Update `sell_vehicle()` in `main.c` to consolidate fleet discount into invoice totals.
+- [ ] Task 4.6: Run test suite to verify all tests (regression + new fleet tests + menu smoke tests) are 100% green.
+- [ ] Task 4.7: Atomic commit for Phase 4 implementation.
 
 ### Phase 5: Verification, Code Review, Documentation & Draft PR
 - [ ] Task 5.1: Execute end-to-end manual terminal verification (add fleet customer, edit Greenway Taxis, generate quote, process sale).
@@ -133,4 +134,5 @@ This log registers decisions, clarifications, and user directions made throughou
 * **2026-11-12 - Multi-Platform Build Automation & Dual Validation**: Created `Makefile` (GCC/Clang) and `build.ps1` (MSVC) with automatic environment detection via `vswhere.exe`, test execution, and clean targets. Dual-platform execution verified locally with 100% passing tests and zero warnings on both Windows (MSVC) and Linux (WSL Ubuntu with GCC `-Wall -Wextra -pedantic`).
 * **2026-11-12 - Continuous Integration (GitHub Actions)**: Created multi-platform CI workflow (`.github/workflows/ci.yml`) targeting Ubuntu and Windows runners on push/PR, including `workflow_dispatch` for manual on-demand execution. Verified 100% green on GitHub Actions cloud runners.
 * **2026-11-12 - TDD Red State Established**: Introduced 4 failing unit tests in `tests/test_calc.c` defining 4% fleet discount behaviors. Verified that all 10 existing regression tests pass while the 4 new fleet tests fail with `Expected 400.00, got 0.00`.
+* **2026-11-13 - Terminal Menu Smoke Tests (Missing Test Suite Decision)**: In accordance with AGENTS.md Stage 3 governance, the user accepted Option A to implement automated smoke tests for terminal menu navigation (verifying Main, Stock, Customers, Invoices, and Help options). Registered as Task 4.1 in Phase 4 without immediate execution.
 * **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.
