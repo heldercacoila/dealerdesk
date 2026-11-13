@@ -208,11 +208,18 @@ static void stock_menu(void)
 
 /* -------------------------------------------------------- CUSTOMERS */
 
+static const char *cust_type_str(char type)
+{
+    if (type == 'T') return "Trade";
+    if (type == 'F') return "Fleet";
+    return "Retail";
+}
+
 static void print_cust_row(CUSTOMER *c)
 {
     printf("  %-5d %-26.26s %-14s %-28.28s %s\n",
            c->id, c->name, c->phone, c->email,
-           c->type == 'T' ? "Trade" : "Retail");
+           cust_type_str(c->type));
 }
 
 static void list_customers(void)
@@ -231,6 +238,7 @@ static void list_customers(void)
 static void add_customer(void)
 {
     CUSTOMER c;
+    char tbuf[16];
 
     header("Add Customer");
     if (ncust >= MAX_CUST) {
@@ -242,7 +250,13 @@ static void add_customer(void)
     read_line("  Name   : ", c.name, sizeof c.name);
     read_line("  Phone  : ", c.phone, sizeof c.phone);
     read_line("  Email  : ", c.email, sizeof c.email);
-    c.type = confirm("  Trade customer (Y/N)? ") ? 'T' : 'R';
+    read_line("  Type ([R]etail, [T]rade, [F]leet, default R): ", tbuf, sizeof tbuf);
+    if (tbuf[0] == 'T' || tbuf[0] == 't')
+        c.type = 'T';
+    else if (tbuf[0] == 'F' || tbuf[0] == 'f')
+        c.type = 'F';
+    else
+        c.type = 'R';
 
     if (c.name[0] == 0) {
         printf("\n  Name is required.\n");
@@ -254,6 +268,56 @@ static void add_customer(void)
     save_customers();
     save_ids();
     printf("\n  Customer %d added.\n", c.id);
+    pause_enter();
+}
+
+static void edit_customer(void)
+{
+    CUSTOMER *c;
+    int id;
+    char b[64];
+
+    header("Edit Customer");
+    id = read_int("  Customer ID : ");
+    c = find_cust(id);
+    if (!c) {
+        printf("\n  Customer not found.\n");
+        pause_enter();
+        return;
+    }
+
+    printf("\n  Editing %s (ID %d)\n", c->name, c->id);
+    printf("  Current Type: %s\n", cust_type_str(c->type));
+    printf("  Press ENTER to keep current values.\n\n");
+
+    read_line("  Name   : ", b, sizeof b);
+    if (b[0]) {
+        strncpy(c->name, b, sizeof c->name - 1);
+        c->name[sizeof c->name - 1] = 0;
+    }
+
+    read_line("  Phone  : ", b, sizeof b);
+    if (b[0]) {
+        strncpy(c->phone, b, sizeof c->phone - 1);
+        c->phone[sizeof c->phone - 1] = 0;
+    }
+
+    read_line("  Email  : ", b, sizeof b);
+    if (b[0]) {
+        strncpy(c->email, b, sizeof c->email - 1);
+        c->email[sizeof c->email - 1] = 0;
+    }
+
+    read_line("  Type ([R]etail, [T]rade, [F]leet): ", b, sizeof b);
+    if (b[0] == 'R' || b[0] == 'r')
+        c->type = 'R';
+    else if (b[0] == 'T' || b[0] == 't')
+        c->type = 'T';
+    else if (b[0] == 'F' || b[0] == 'f')
+        c->type = 'F';
+
+    save_customers();
+    printf("\n  Customer %d updated.\n", c->id);
     pause_enter();
 }
 
@@ -284,12 +348,14 @@ static void customer_menu(void)
         printf("  1. List customers\n");
         printf("  2. Add customer\n");
         printf("  3. Find customer\n");
+        printf("  4. Edit customer\n");
         printf("  0. Back\n\n");
         opt = read_int("  Option: ");
         switch (opt) {
         case 1: list_customers(); break;
         case 2: add_customer(); break;
         case 3: find_customer(); break;
+        case 4: edit_customer(); break;
         case 0: return;
         default:
             printf("  Invalid option\n");
@@ -333,12 +399,14 @@ static void print_quote(const char *title, QUOTE *q, VEHICLE *v, CUSTOMER *c)
 {
     printf("\n  %s\n", title);
     printf("  ----------------------------------------------\n");
-    printf("  Customer : %s (%s)\n", c->name, c->type == 'T' ? "Trade" : "Retail");
+    printf("  Customer : %s (%s)\n", c->name, cust_type_str(c->type));
     printf("  Vehicle  : %s %s %s\n", v->plate, v->make, v->model);
     printf("  ----------------------------------------------\n");
     printf("  List price               %12.2f\n", q->list);
     if (q->trade_disc > 0)
         printf("  Trade discount           %12.2f\n", -q->trade_disc);
+    if (q->fleet_disc > 0)
+        printf("  Fleet discount           %12.2f\n", -q->fleet_disc);
     if (q->disc > 0)
         printf("  Discount (%4.1f%%)         %12.2f\n", q->disc_pct, -q->disc);
     printf("  Net price                %12.2f\n", q->net);
@@ -397,7 +465,7 @@ static void sell_vehicle(void)
     i->veh_id = v->id;
     i->cust_id = c->id;
     i->list = q.list;
-    i->disc = q.trade_disc + q.disc;
+    i->disc = q.trade_disc + q.fleet_disc + q.disc;
     i->net = q.net;
     i->vat = q.vat;
     i->fees = q.delivery + q.reg_fee;

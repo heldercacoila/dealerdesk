@@ -103,6 +103,7 @@ static void test_customers_menu_options(void)
     ASSERT_STR_CONTAINS(out, "1. List customers");
     ASSERT_STR_CONTAINS(out, "2. Add customer");
     ASSERT_STR_CONTAINS(out, "3. Find customer");
+    ASSERT_STR_CONTAINS(out, "4. Edit customer");
     ASSERT_STR_CONTAINS(out, "0. Back");
     ASSERT_STR_CONTAINS(out, "Goodbye.");
 }
@@ -147,6 +148,18 @@ static void test_invalid_option_handling(void)
     ASSERT_STR_CONTAINS(out, "Goodbye.");
 }
 
+static void test_edit_customer_flow_prompt(void)
+{
+    char out[OUT_BUFFER_SIZE];
+    /* Select Customers (2), Edit (4), ID 9999 (not found), press Enter on pause, Back (0), Exit (0) */
+    int res = run_app_with_input("2\n4\n9999\n\n0\n0\n", out, sizeof out);
+
+    ASSERT_INT_EQ(0, res);
+    ASSERT_STR_CONTAINS(out, "Edit Customer");
+    ASSERT_STR_CONTAINS(out, "Customer not found.");
+    ASSERT_STR_CONTAINS(out, "Goodbye.");
+}
+
 int main(void)
 {
     printf("Running Smoke Tests: Terminal Menu Navigation (test_smoke.c)...\n\n");
@@ -157,6 +170,7 @@ int main(void)
     RUN_TEST(test_invoices_menu_options);
     RUN_TEST(test_help_screen_options);
     RUN_TEST(test_invalid_option_handling);
+    RUN_TEST(test_edit_customer_flow_prompt);
 
     TEST_REPORT();
 }

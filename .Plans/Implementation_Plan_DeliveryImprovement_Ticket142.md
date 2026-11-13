@@ -103,11 +103,11 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 
 ### Phase 4: TICKET-142 - Robust Implementation & Architecture
 - [x] Task 4.1: Implement Terminal Menu Smoke Test suite (verifying Main, Stock, Customers, and Invoices menus integrity).
-- [ ] Task 4.2: Update `QUOTE` struct in `calc.h` and implement fleet calculation in `calc.c`.
-- [ ] Task 4.3: Update customer model in `globals.h` and `main.c` (support `'F'`, update prompt in `add_customer()`, implement customer editing `edit_customer()`).
-- [ ] Task 4.4: Update quote display in `main.c` to render the separate "Fleet discount" line.
-- [ ] Task 4.5: Update `sell_vehicle()` in `main.c` to consolidate fleet discount into invoice totals.
-- [ ] Task 4.6: Run test suite to verify all tests (regression + new fleet tests + menu smoke tests) are 100% green.
+- [x] Task 4.2: Update `QUOTE` struct in `calc.h` and implement fleet calculation in `calc.c`.
+- [x] Task 4.3: Update customer model in `globals.h` and `main.c` (support `'F'`, update prompt in `add_customer()`, implement customer editing `edit_customer()`).
+- [x] Task 4.4: Update quote display in `main.c` to render the separate "Fleet discount" line.
+- [x] Task 4.5: Update `sell_vehicle()` in `main.c` to consolidate fleet discount into invoice totals.
+- [x] Task 4.6: Run test suite to verify all tests (regression + new fleet tests + menu smoke tests) are 100% green.
 - [ ] Task 4.7: Atomic commit for Phase 4 implementation.
 
 ### Phase 5: Verification, Code Review, Documentation & Draft PR
@@ -136,4 +136,5 @@ This log registers decisions, clarifications, and user directions made throughou
 * **2026-11-12 - TDD Red State Established**: Introduced 4 failing unit tests in `tests/test_calc.c` defining 4% fleet discount behaviors. Verified that all 10 existing regression tests pass while the 4 new fleet tests fail with `Expected 400.00, got 0.00`.
 * **2026-11-13 - Terminal Menu Smoke Tests (Missing Test Suite Decision)**: In accordance with AGENTS.md Stage 3 governance, the user accepted Option A to implement automated smoke tests for terminal menu navigation (verifying Main, Stock, Customers, Invoices, and Help options).
 * **2026-11-13 - Terminal Menu Smoke Tests Executed**: Implemented in-tree smoke test runner `tests/test_smoke.c` and extended `tests/test_harness.h` with `ASSERT_STR_CONTAINS`. Validated 6 smoke test scenarios covering Main, Stock, Customers, Invoices, Help, and invalid option handling across Windows (MSVC) and Linux (WSL GCC) with 100% green results. Integrated into `Makefile` and `build.ps1`.
+* **2026-11-13 - Phase 4 Implementation & Dual-Platform Verification**: Implemented 4% fleet discount for customer type 'F' in `calc.c`, with salesman discount applied to post-fleet vehicle price. Extended customer model in `globals.h` and `main.c` with 'F' display, updated `add_customer()` prompt, added `edit_customer()` (option 4 in customer menu) to allow editing existing customers like Greenway Taxis, added dedicated Fleet discount line in `print_quote()`, and consolidated total discount in `sell_vehicle()` preserving `invoices.dat` schema compatibility. Verified all 25 automated tests 100% green on Windows (MSVC) and Linux (WSL GCC).
 * **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.
