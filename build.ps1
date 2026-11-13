@@ -54,7 +54,7 @@ function Initialize-CompilerEnvironment {
 
 function Invoke-Clean {
     Write-Host "Cleaning build artifacts..." -ForegroundColor Yellow
-    $targets = @("dealerdesk.exe", "test_calc.exe", "test_dbfile.exe", "*.obj", "*.ilk", "*.pdb")
+    $targets = @("dealerdesk.exe", "test_calc.exe", "test_dbfile.exe", "test_smoke.exe", "_smoke_in.tmp", "*.obj", "*.ilk", "*.pdb")
     foreach ($t in $targets) {
         Remove-Item -Path $t -Force -ErrorAction SilentlyContinue
     }
@@ -79,10 +79,7 @@ if ($Test) {
     }
 
     & .\test_calc.exe
-    if ($LASTEXITCODE -ne 0) {
-        Write-Error "test_calc failed!"
-        exit $LASTEXITCODE
-    }
+    $calcExitCode = $LASTEXITCODE
 
     Write-Host "`n===> Building and running test_dbfile..." -ForegroundColor Cyan
     & cl.exe @commonFlags /Fe:test_dbfile.exe tests\test_dbfile.c dbfile.c
@@ -92,13 +89,33 @@ if ($Test) {
     }
 
     & .\test_dbfile.exe
+    $dbfileExitCode = $LASTEXITCODE
+
+    Write-Host "`n===> Building DealerDesk for smoke tests..." -ForegroundColor Cyan
+    & cl.exe @commonFlags /Fe:dealerdesk.exe main.c calc.c dbfile.c screen.c
     if ($LASTEXITCODE -ne 0) {
-        Write-Error "test_dbfile failed!"
+        Write-Error "Failed to compile dealerdesk.exe for smoke testing"
         exit $LASTEXITCODE
     }
 
-    Remove-Item -Path test_calc.exe, test_dbfile.exe, *.obj -Force -ErrorAction SilentlyContinue
-    Write-Host "`n===> All characterization tests passed successfully (100% Green)!" -ForegroundColor Green
+    Write-Host "`n===> Building and running test_smoke..." -ForegroundColor Cyan
+    & cl.exe @commonFlags /Fe:test_smoke.exe tests\test_smoke.c
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "Failed to compile test_smoke.c"
+        exit $LASTEXITCODE
+    }
+
+    & .\test_smoke.exe
+    $smokeExitCode = $LASTEXITCODE
+
+    Remove-Item -Path test_calc.exe, test_dbfile.exe, test_smoke.exe, _smoke_in.tmp, *.obj -Force -ErrorAction SilentlyContinue
+
+    if ($calcExitCode -ne 0 -or $dbfileExitCode -ne 0 -or $smokeExitCode -ne 0) {
+        Write-Error "One or more test suites failed (test_calc: $calcExitCode, test_dbfile: $dbfileExitCode, test_smoke: $smokeExitCode)."
+        exit 1
+    }
+
+    Write-Host "`n===> All test suites executed successfully (100% Green)!" -ForegroundColor Green
     exit 0
 }
 

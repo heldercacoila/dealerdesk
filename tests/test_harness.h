@@ -64,6 +64,18 @@ static const char *g_current_test = NULL;
     } \
 } while (0)
 
+#define ASSERT_STR_CONTAINS(haystack, needle) do { \
+    const char *_haystack = (haystack); \
+    const char *_needle = (needle); \
+    if (!_haystack || !_needle || strstr(_haystack, _needle) == NULL) { \
+        printf("  [FAIL] %s (%s:%d): String did not contain \"%s\"\n", \
+               g_current_test ? g_current_test : "test", __FILE__, __LINE__, \
+               _needle ? _needle : "(null)"); \
+        g_tests_failed++; \
+        return; \
+    } \
+} while (0)
+
 #define RUN_TEST(test_func) do { \
     int _before = g_tests_failed; \
     g_current_test = #test_func; \
