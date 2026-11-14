@@ -19,15 +19,6 @@ This document records identified bugs, documentation discrepancies, legacy anoma
 
 ## Active Issues
 
-### [KI-001] Missing report.c and Menu Option in README.md
-* **Status**: Open / Cataloged
-* **Severity**: Minor (Documentation)
-* **Description**: `README.md` lines 29 and 57 reference `report.c` and a menu item `6. Reports (monthly sales, margin per vehicle)`. Neither `report.c` nor option 6 exists in `main.c`.
-* **Impact**: Compiling following the verbatim README instructions fails on missing `report.c`.
-* **Resolution Strategy**: Update `README.md` to reflect only actual source files and menu items during final documentation cleanup.
-
----
-
 ### [KI-002] Trade Customer Discount Discrepancy (Docs vs Implementation)
 * **Status**: Accepted Legacy Behavior
 * **Severity**: Important (Financial Logic)
@@ -64,4 +55,9 @@ This document records identified bugs, documentation discrepancies, legacy anoma
 
 ## Resolved Issues
 
-*(No resolved issues yet. When active issues are fixed, move them here with their resolution note).*
+### [KI-001] Missing report.c and Menu Option in README.md
+* **Status**: Resolved (2026-11-13 via TICKET-142)
+* **Severity**: Minor (Documentation)
+* **Description**: Legacy `README.md` lines 29 and 57 referenced non-existent `report.c` and a menu item `6. Reports (monthly sales, margin per vehicle)`. Neither existed in `main.c`.
+* **Resolution**: Completely revised `README.md`. Removed references to `report.c` and ghost menu option 6. Replaced outdated compilation instructions with standardized cross-platform build automation (`make` and `build.ps1`), accurate data directory locations (`./data/`), and correct pricing rules.
+* **Changed Files**: `README.md`
