@@ -6,6 +6,10 @@
 #include <string.h>
 #include "screen.h"
 
+#ifndef APP_VERSION
+#define APP_VERSION "2.4.0"
+#endif
+
 void cls(void)
 {
     printf("\033[2J\033[H");
@@ -13,9 +17,15 @@ void cls(void)
 
 void header(const char *title)
 {
+    char ver[32];
     cls();
+    if (APP_VERSION[0] == 'v' || APP_VERSION[0] == 'V')
+        snprintf(ver, sizeof ver, "  DEALERDESK %s", APP_VERSION);
+    else
+        snprintf(ver, sizeof ver, "  DEALERDESK v%s", APP_VERSION);
+
     printf("==============================================================\n");
-    printf("  DEALERDESK v2.3 %44s\n", title);
+    printf("%-30s %31s\n", ver, title);
     printf("==============================================================\n\n");
 }
 

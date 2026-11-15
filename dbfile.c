@@ -132,6 +132,8 @@ static void load_invoices(void)
         i->tradein = t ? atof(t) : 0;
         t = strtok(NULL, "|");
         i->total = t ? atof(t) : 0;
+        t = strtok(NULL, "|");
+        i->fleet_disc = t ? atof(t) : 0.0;
         ninv++;
     }
     fclose(f);
@@ -207,10 +209,10 @@ void save_invoices(void)
         return;
     }
     for (i = 0; i < ninv; i++)
-        fprintf(f, "%d|%s|%d|%d|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f\n",
+        fprintf(f, "%d|%s|%d|%d|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f|%.2f\n",
                 inv[i].no, inv[i].date, inv[i].veh_id, inv[i].cust_id,
                 inv[i].list, inv[i].disc, inv[i].net, inv[i].vat,
-                inv[i].fees, inv[i].tradein, inv[i].total);
+                inv[i].fees, inv[i].tradein, inv[i].total, inv[i].fleet_disc);
     fclose(f);
 }
 
