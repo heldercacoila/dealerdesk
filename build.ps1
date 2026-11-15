@@ -14,6 +14,10 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+if (Test-Path Variable:PSNativeCommandArgumentPassing) {
+    $PSNativeCommandArgumentPassing = 'Legacy'
+}
+
 function Initialize-CompilerEnvironment {
     if (Get-Command cl.exe -ErrorAction SilentlyContinue) {
         return
@@ -73,7 +77,13 @@ if (-not $gitVersion) {
     $gitVersion = "2.4.0"
 }
 
-$commonFlags = @("/W3", "/D_CRT_SECURE_NO_WARNINGS", "/nologo", "/DAPP_VERSION=\`"$gitVersion\`"")
+if ($PSVersionTable.PSVersion.Major -ge 7 -and $PSNativeCommandArgumentPassing -ne 'Legacy') {
+    $versionFlag = "/DAPP_VERSION=`"$gitVersion`""
+} else {
+    $versionFlag = "/DAPP_VERSION=\`"$gitVersion\`""
+}
+
+$commonFlags = @("/W3", "/D_CRT_SECURE_NO_WARNINGS", "/nologo", $versionFlag)
 
 if ($Test) {
     Write-Host "`n===> Building and running test_calc..." -ForegroundColor Cyan

@@ -48,14 +48,14 @@ jobs:
 
       - name: Build Application (Windows)
         if: runner.os == 'Windows'
-        shell: pwsh
+        shell: powershell
         run: |
           .\build.ps1 -Clean
           .\build.ps1
 
       - name: Run Test Suite (Windows)
         if: runner.os == 'Windows'
-        shell: pwsh
+        shell: powershell
         run: .\build.ps1 -Test
 
       - name: Upload Binary Artifact (Windows)
