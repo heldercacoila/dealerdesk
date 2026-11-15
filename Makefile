@@ -1,7 +1,8 @@
 # Makefile - DealerDesk build automation for Linux, macOS and WSL
 # Compiler and flags
 CC ?= gcc
-CFLAGS ?= -Wall -Wextra -pedantic -std=c99
+GIT_VERSION ?= $(shell git describe --tags --always 2>/dev/null || echo "2.4.0")
+CFLAGS ?= -Wall -Wextra -pedantic -std=c99 -DAPP_VERSION=\"$(GIT_VERSION)\"
 LIBS = -lm
 
 SRC_APP = main.c calc.c dbfile.c screen.c

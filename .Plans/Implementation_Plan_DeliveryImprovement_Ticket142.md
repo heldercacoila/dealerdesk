@@ -114,10 +114,10 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 - [x] Task 5.1: Execute end-to-end manual terminal verification (add fleet customer, edit Greenway Taxis, generate quote, process sale).
 - [x] Task 5.2: Execute full test suite on MSVC and GCC.
 - [x] Task 5.3: Run `/code-review-and-quality` review; address critical issues; update `KNOWN_ISSUES.md` with non-critical observations (resolved KI-001).
-- [ ] Task 5.4: Remove obsolete `RELEASE.txt` and finalize `README.md` and `NOTES.md`.
-- [ ] Task 5.5: Implement automated build-time versioning in `Makefile`, `build.ps1`, `screen.c`, and `tests/test_smoke.c`.
-- [ ] Task 5.6: Extend `.github/workflows/ci.yml` with binary artifact upload and automated GitHub Release publishing upon merge to `master`.
-- [ ] Task 5.7: Run full automated test suite (regression + smoke tests) on Windows and Linux to verify build and versioning.
+- [x] Task 5.4: Remove obsolete `RELEASE.txt` and finalize `README.md` and `NOTES.md`.
+- [x] Task 5.5: Implement automated build-time versioning in `Makefile`, `build.ps1`, `screen.c`, and `tests/test_smoke.c`.
+- [x] Task 5.6: Extend `.github/workflows/ci.yml` with binary artifact upload and automated GitHub Release publishing upon merge to `master`.
+- [x] Task 5.7: Run full automated test suite (regression + smoke tests) on Windows and Linux to verify build and versioning.
 - [ ] Task 5.8: Atomic commit for documentation, versioning, and release automation.
 - [ ] Task 5.9: Invoke `/Create-pr` to publish Draft Pull Request.
 
@@ -142,4 +142,5 @@ This log registers decisions, clarifications, and user directions made throughou
 * **2026-11-13 - Phase 4 Implementation & Dual-Platform Verification**: Implemented 4% fleet discount for customer type 'F' in `calc.c`, with salesman discount applied to post-fleet vehicle price. Extended customer model in `globals.h` and `main.c` with 'F' display, updated `add_customer()` prompt, added `edit_customer()` (option 4 in customer menu) to allow editing existing customers like Greenway Taxis, added dedicated Fleet discount line in `print_quote()`, and consolidated total discount in `sell_vehicle()` preserving `invoices.dat` schema compatibility. Verified all 25 automated tests 100% green on Windows (MSVC) and Linux (WSL GCC).
 * **2026-11-13 - Phase 5 Documentation & Final Verification**: Executed end-to-end CLI workflow, authoring `NOTES.md` (reflection, AI pairing experience, error recovery, assumptions, backlog), resolving `[KI-001]` in `KNOWN_ISSUES.md`, and rewriting `README.md` with accurate build/run commands and pricing build-up.
 * **2026-11-13 - Automated Versioning & CD Release Scope**: Obsolete `RELEASE.txt` approved for removal. Agreed to implement dynamic build-time versioning (`APP_VERSION` injected from Git describe/SemVer) and automated CD in GitHub Actions (`.github/workflows/ci.yml`) to upload cross-platform binary artifacts and publish a GitHub Release with attached executables upon PR merge to `master`.
+* **2026-11-14 - Versioning & Automated Release CD Implemented**: Removed obsolete manual `RELEASE.txt`. Injected dynamic compile-time versioning from git describe into `Makefile` and `build.ps1` with fallback in `screen.c`. Extended `.github/workflows/ci.yml` with binary artifact uploads for Linux and Windows and an automated GitHub Release job (`release`) triggered on push to `master`. The job calculates SemVer tags dynamically based on commit conventions, creates and pushes the tag, and attaches cross-platform executables via `gh release create`. All 25 unit, persistence, and smoke tests verified 100% green on Windows MSVC and WSL GCC.
 * **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.

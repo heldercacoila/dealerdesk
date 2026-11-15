@@ -62,7 +62,7 @@ static void test_main_menu_options(void)
     int res = run_app_with_input("0\n", out, sizeof out);
 
     ASSERT_INT_EQ(0, res);
-    ASSERT_STR_CONTAINS(out, "DEALERDESK v2.3");
+    ASSERT_STR_CONTAINS(out, "DEALERDESK");
     ASSERT_STR_CONTAINS(out, "Main Menu");
     ASSERT_STR_CONTAINS(out, "1. Stock");
     ASSERT_STR_CONTAINS(out, "2. Customers");

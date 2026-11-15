@@ -68,7 +68,12 @@ if ($Clean) {
 
 Initialize-CompilerEnvironment
 
-$commonFlags = @("/W3", "/D_CRT_SECURE_NO_WARNINGS", "/nologo")
+$gitVersion = (git describe --tags --always 2>$null)
+if (-not $gitVersion) {
+    $gitVersion = "2.4.0"
+}
+
+$commonFlags = @("/W3", "/D_CRT_SECURE_NO_WARNINGS", "/nologo", "/DAPP_VERSION=\`"$gitVersion\`"")
 
 if ($Test) {
     Write-Host "`n===> Building and running test_calc..." -ForegroundColor Cyan
