@@ -110,7 +110,7 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 - [x] Task 4.6: Run test suite to verify all tests (regression + new fleet tests + menu smoke tests) are 100% green.
 - [x] Task 4.7: Atomic commit for Phase 4 implementation.
 
-### Phase 5: Verification, Code Review, Documentation & Draft PR
+### Phase 5: Verification, Code Review, Documentation & Automation
 - [x] Task 5.1: Execute end-to-end manual terminal verification (add fleet customer, edit Greenway Taxis, generate quote, process sale).
 - [x] Task 5.2: Execute full test suite on MSVC and GCC.
 - [x] Task 5.3: Run `/code-review-and-quality` review; address critical issues; update `KNOWN_ISSUES.md` with non-critical observations (resolved KI-001).
@@ -118,8 +118,17 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 - [x] Task 5.5: Implement automated build-time versioning in `Makefile`, `build.ps1`, `screen.c`, and `tests/test_smoke.c`.
 - [x] Task 5.6: Extend `.github/workflows/ci.yml` with binary artifact upload and automated GitHub Release publishing upon merge to `master`.
 - [x] Task 5.7: Run full automated test suite (regression + smoke tests) on Windows and Linux to verify build and versioning.
-- [ ] Task 5.8: Atomic commit for documentation, versioning, and release automation.
-- [ ] Task 5.9: Invoke `/Create-pr` to publish Draft Pull Request.
+- [x] Task 5.8: Atomic commit for documentation, versioning, and release automation.
+
+### Phase 6: Invoice Fleet Discount Persistence & View Screen (Data Model Extension)
+- [x] Task 6.1: Define `double fleet_disc;` in `INVOICE` struct (`globals.h`) and add test assertions in `tests/test_dbfile.c` for 11-field legacy invoices and 12-field fleet invoices.
+- [x] Task 6.2: Implement optional 12th token parsing in `dbfile.c:load_invoices()` and 12-field writing in `dbfile.c:save_invoices()`.
+- [x] Task 6.3: Record `i->fleet_disc = q.fleet_disc;` during invoice creation in `main.c:sell_vehicle()`.
+- [x] Task 6.4: Update `view_invoice()` in `main.c` to display dedicated `Fleet discount` line when `fleet_disc > 0`, and any remaining discount as `Discounts`.
+- [x] Task 6.5: Add terminal smoke test in `tests/test_smoke.c` verifying `view_invoice()` output on a fleet sale.
+- [x] Task 6.6: Run full test suite on Windows MSVC and WSL GCC (100% green).
+- [x] Task 6.7: Atomic commit for Phase 6 (`feat: persist and display fleet discount in invoices`).
+- [ ] Task 6.8: Invoke `/Create-pr` to publish Draft Pull Request.
 
 ---
 
@@ -128,6 +137,7 @@ This plan executes the two-phase assessment on branch `TICKET-142-Fleet_discount
 This log registers decisions, clarifications, and user directions made throughout execution:
 
 * **2026-11-11 - Plan Storage**: Plans are stored in `.Plans/` in the project.
+* **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.
 * **2026-11-11 - In-Tree Code Review Skill**: Adapted `/code-review-and-quality` into `.agent/skills/` tailored to C memory/pointer/buffer safety.
 * **2026-11-11 - Modular Git Skills**: Split commit and push into two separate skills (`git-commit` and `git-push`), invokable via command or natural language, independently or in sequence.
 * **2026-11-11 - Strict PR Invocations**: Guardrail implemented in `create-pr` requiring explicit `/Create-pr` command; conversational requests are rejected.
@@ -143,4 +153,4 @@ This log registers decisions, clarifications, and user directions made throughou
 * **2026-11-13 - Phase 5 Documentation & Final Verification**: Executed end-to-end CLI workflow, authoring `NOTES.md` (reflection, AI pairing experience, error recovery, assumptions, backlog), resolving `[KI-001]` in `KNOWN_ISSUES.md`, and rewriting `README.md` with accurate build/run commands and pricing build-up.
 * **2026-11-13 - Automated Versioning & CD Release Scope**: Obsolete `RELEASE.txt` approved for removal. Agreed to implement dynamic build-time versioning (`APP_VERSION` injected from Git describe/SemVer) and automated CD in GitHub Actions (`.github/workflows/ci.yml`) to upload cross-platform binary artifacts and publish a GitHub Release with attached executables upon PR merge to `master`.
 * **2026-11-14 - Versioning & Automated Release CD Implemented**: Removed obsolete manual `RELEASE.txt`. Injected dynamic compile-time versioning from git describe into `Makefile` and `build.ps1` with fallback in `screen.c`. Extended `.github/workflows/ci.yml` with binary artifact uploads for Linux and Windows and an automated GitHub Release job (`release`) triggered on push to `master`. The job calculates SemVer tags dynamically based on commit conventions, creates and pushes the tag, and attaches cross-platform executables via `gh release create`. All 25 unit, persistence, and smoke tests verified 100% green on Windows MSVC and WSL GCC.
-* **2026-11-11 - Plan Living Status Updates**: Implementation plan must track status dynamically with `[x]` upon completion of each task and record all design/acceptance decisions in this section.
+* **2026-11-15 - Invoice Fleet Discount Persistence Architecture**: In acceptance criteria review, identified that while quotes and invoice preview displayed dedicated fleet discount lines, persisted invoices in `invoices.dat` consolidated all discounts into `disc`, causing `view_invoice()` to display generic `Discounts`. Rejected dynamic recalculation in `view_invoice()` based on customer type because invoices are immutable legal financial records and customer types can change post-sale. Adopted backward-compatible schema extension: adding an optional 12th column `fleet_disc` to `invoices.dat`. Legacy 11-field invoices default `fleet_disc` to `0.00` with zero conversion required; new invoices persist exact fleet discount at sale time and render dedicated line in `view_invoice()`.

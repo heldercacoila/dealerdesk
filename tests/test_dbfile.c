@@ -87,6 +87,69 @@ static void test_invoice_parsing(void)
     ASSERT_DOUBLE_EQ(205.00, inv[0].fees);
     ASSERT_DOUBLE_EQ(1500.00, inv[0].tradein);
     ASSERT_DOUBLE_EQ(9331.30, inv[0].total);
+    ASSERT_DOUBLE_EQ(0.00, inv[0].fleet_disc);
+    ASSERT_DOUBLE_EQ(0.00, inv[1].fleet_disc);
+    ASSERT_DOUBLE_EQ(0.00, inv[2].fleet_disc);
+}
+
+static void test_invoice_save_and_load_fleet_field(void)
+{
+    FILE *src, *dst;
+    char buf[1024];
+    size_t n;
+    int original_ninv;
+
+    load_all();
+    original_ninv = ninv;
+
+    /* Backup data/invoices.dat to temporary backup */
+    src = fopen("data/invoices.dat", "r");
+    dst = fopen("data/invoices.dat.bak", "w");
+    if (src && dst) {
+        while ((n = fread(buf, 1, sizeof buf, src)) > 0)
+            fwrite(buf, 1, n, dst);
+    }
+    if (src) fclose(src);
+    if (dst) fclose(dst);
+
+    /* Append a mock 12-field invoice with fleet discount */
+    if (ninv < MAX_INV) {
+        inv[ninv].no = 99999;
+        strcpy(inv[ninv].date, "2026-11-15");
+        inv[ninv].veh_id = 1003;
+        inv[ninv].cust_id = 2008;
+        inv[ninv].list = 15995.00;
+        inv[ninv].disc = 639.80;
+        inv[ninv].net = 15355.20;
+        inv[ninv].vat = 3101.04;
+        inv[ninv].fees = 205.00;
+        inv[ninv].tradein = 0.00;
+        inv[ninv].total = 18661.24;
+        inv[ninv].fleet_disc = 639.80;
+        ninv++;
+        save_invoices();
+
+        /* Reload and assert 12th field was loaded */
+        load_all();
+        ASSERT_INT_EQ(original_ninv + 1, ninv);
+        ASSERT_DOUBLE_EQ(639.80, inv[ninv - 1].fleet_disc);
+        ASSERT_INT_EQ(99999, inv[ninv - 1].no);
+    }
+
+    /* Restore backup */
+    src = fopen("data/invoices.dat.bak", "r");
+    dst = fopen("data/invoices.dat", "w");
+    if (src && dst) {
+        while ((n = fread(buf, 1, sizeof buf, src)) > 0)
+            fwrite(buf, 1, n, dst);
+    }
+    if (src) fclose(src);
+    if (dst) fclose(dst);
+    remove("data/invoices.dat.bak");
+
+    /* Reload original state */
+    load_all();
+    ASSERT_INT_EQ(original_ninv, ninv);
 }
 
 int main(void)
@@ -97,6 +160,7 @@ int main(void)
     RUN_TEST(test_vehicle_parsing);
     RUN_TEST(test_customer_parsing);
     RUN_TEST(test_invoice_parsing);
+    RUN_TEST(test_invoice_save_and_load_fleet_field);
 
     TEST_REPORT();
 }

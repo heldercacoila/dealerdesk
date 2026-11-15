@@ -56,7 +56,7 @@ Data files reside in `./data/` and use flat-file storage with pipe (`|`) field d
 
 * `data/stock.dat`: Vehicle inventory, pricing, mileage, and status (0: Stock, 1: Reserved, 2: Sold).
 * `data/customers.dat`: Customer records with ID, name, phone, email, and type (`R`: Retail, `T`: Trade, `F`: Fleet).
-* `data/invoices.dat`: Sales invoices with list price, total discounts, net price, VAT, fees, trade-in deduction, and grand total.
+* `data/invoices.dat`: Sales invoices with list price, total discounts, net price, VAT, fees, trade-in deduction, grand total, and optional fleet discount.
 * `data/next_ids.dat`: Sequence counters for vehicles, customers, and invoice numbering.
 
 > [!IMPORTANT]

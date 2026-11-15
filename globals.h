@@ -45,6 +45,7 @@ typedef struct {
     double fees;
     double tradein;
     double total;
+    double fleet_disc;  /* 0.00 for legacy invoices, or 4% fleet discount */
 } INVOICE;
 
 extern VEHICLE  veh[MAX_VEH];
